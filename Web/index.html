@@ -1,0 +1,286 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Our Story</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600;700&family=Lato:wght@300;400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        playfair: ['Playfair Display', 'serif'],
+                        lato: ['Lato', 'sans-serif'],
+                    },
+                    animation: {
+                        'float': 'float 3s ease-in-out infinite',
+                        'heart-float': 'heart-float 5s ease-in-out infinite',
+                    },
+                    keyframes: {
+                        float: {
+                            '0%, 100%': { transform: 'translateY(0)' },
+                            '50%': { transform: 'translateY(-10px)' },
+                        },
+                        'heart-float': {
+                            '0%': { transform: 'translateY(0) scale(1)' },
+                            '50%': { transform: 'translateY(-100vh) scale(0)' },
+                            '100%': { transform: 'translateY(-100vh) scale(0)' },
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        .glass-morphism {
+            background: rgba(255, 255, 255, 0.2);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        
+        .floating-heart {
+            position: fixed;
+            font-size: 24px;
+            pointer-events: none;
+            animation: heart-float 5s ease-in-out;
+            z-index: 50;
+        }
+
+        .parallax-bg {
+            background-attachment: fixed;
+            transform: translateZ(0);
+            will-change: transform;
+        }
+
+        .scroll-progress {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 0%;
+            height: 3px;
+            background: linear-gradient(to right, #ff6b6b, #feca57);
+            z-index: 1000;
+            transition: width 0.3s;
+        }
+
+        #back-to-top {
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.3s ease-in-out;
+        }
+
+        #back-to-top.show {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        .countdown-item {
+            @apply bg-white rounded-lg shadow-lg p-4 text-2xl font-bold text-pink-500;
+        }
+
+        @keyframes gradient {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        .animate-gradient {
+            background-size: 200% 200%;
+            animation: gradient 15s ease infinite;
+        }
+
+        @keyframes skeleton-loading {
+            0% { background-position: -200% 0; }
+            100% { background-position: 200% 0; }
+        }
+
+        .skeleton {
+            background: linear-gradient(90deg, #f0f0f0 25%, #e0e0e0 50%, #f0f0f0 75%);
+            background-size: 200% 100%;
+            animation: skeleton-loading 1.5s infinite;
+        }
+    </style>
+</head>
+<body class="bg-gray-50 font-lato">
+    <!-- Scroll Progress Bar -->
+    <div id="scroll-progress" class="scroll-progress"></div>
+
+    <!-- Back to Top Button -->
+    <button id="back-to-top" class="fixed bottom-8 right-8 bg-pink-500 text-white p-4 rounded-full shadow-lg z-50 opacity-0">
+        <i class="fas fa-arrow-up"></i>
+    </button>
+
+    <!-- Hero Section with Parallax -->
+    <header class="min-h-screen flex items-center justify-center relative overflow-hidden">
+        <div class="parallax-bg absolute inset-0 bg-gradient-to-br from-pink-400 via-purple-400 to-indigo-400 animate-gradient"></div>
+        <div class="glass-morphism text-center z-10 px-8 py-12 rounded-2xl mx-4 backdrop-blur-sm">
+            <h1 class="text-5xl md:text-7xl font-playfair font-bold text-white mb-6 animate-float">Our Story</h1>
+            <p class="text-xl md:text-2xl text-white mb-8">A Journey of Love and Memories</p>
+            <a href="#gallery" class="inline-block bg-white text-gray-800 px-8 py-3 rounded-full shadow-lg hover:shadow-xl transition duration-300 ease-in-out transform hover:scale-105">
+                <i class="fas fa-heart mr-2 text-pink-500"></i>View Our Memories
+            </a>
+        </div>
+    </header>
+
+    <!-- Anniversary Countdown Section -->
+    <section class="py-16 bg-gradient-to-r from-pink-100 to-purple-100">
+        <div class="max-w-4xl mx-auto px-4 text-center">
+            <h2 class="text-3xl font-playfair font-bold mb-8">Our Next Anniversary</h2>
+            <div id="countdown" class="flex justify-center space-x-4"></div>
+        </div>
+    </section>
+
+    <!-- Quote Section -->
+    <section class="py-16 bg-white">
+        <div class="max-w-4xl mx-auto px-4 text-center">
+            <div class="relative">
+                <i class="fas fa-quote-left text-4xl text-pink-200 absolute -top-8 -left-8"></i>
+                <p id="rotating-quote" class="text-2xl font-playfair italic text-gray-700 transition-opacity duration-500">
+                    Every love story is beautiful, but ours is my favorite.
+                </p>
+                <i class="fas fa-quote-right text-4xl text-pink-200 absolute -bottom-8 -right-8"></i>
+            </div>
+        </div>
+    </section>
+
+    <!-- Gallery Section with Carousel -->
+    <section id="gallery" class="py-20 px-4">
+        <div class="max-w-7xl mx-auto">
+            <h2 class="text-4xl font-playfair font-bold text-center mb-16 text-gray-800">Our Photo Gallery</h2>
+            <div class="relative">
+                <!-- Carousel Container -->
+                <div class="carousel overflow-hidden relative rounded-lg shadow-xl">
+                    <div class="carousel-container flex transition-transform duration-500">
+                        <!-- Image 1 -->
+                        <div class="carousel-item min-w-full">
+                            <img src="./images/A.jpg" 
+                                 alt="Memory A" 
+                                 class="w-full h-[600px] object-cover"
+                                 onerror="this.onerror=null; this.src='data:image/svg+xml,%3Csvg xmlns=\'http://www.w3.org/2000/svg\' width=\'800\' height=\'600\' viewBox=\'0 0 800 600\'%3E%3Crect width=\'800\' height=\'600\' fill=\'%23f3f4f6\'/%3E%3Ctext x=\'400\' y=\'300\' font-family=\'Arial\' font-size=\'24\' fill=\'%236b7280\' text-anchor=\'middle\' dominant-baseline=\'middle\'%3EImage Loading...%3C/text%3E%3C/svg%3E'">
+                            <div class="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent flex items-end justify-start p-8">
+                                <p class="text-white text-2xl font-playfair">Our First Memory</p>
+                            </div>
+                        </div>
+                        <!-- Image 2 -->
+                        <div class="carousel-item min-w-full">
+                            <img src="./images/B.jpg" 
+                                 alt="Memory B" 
+                                 class="w-full h-[600px] object-cover"
+                                 onerror="this.onerror=null; this.src='data:image/svg+xml,%3Csvg xmlns=\'http://www.w3.org/2000/svg\' width=\'800\' height=\'600\' viewBox=\'0 0 800 600\'%3E%3Crect width=\'800\' height=\'600\' fill=\'%23f3f4f6\'/%3E%3Ctext x=\'400\' y=\'300\' font-family=\'Arial\' font-size=\'24\' fill=\'%236b7280\' text-anchor=\'middle\' dominant-baseline=\'middle\'%3EImage Loading...%3C/text%3E%3C/svg%3E'">
+                            <div class="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent flex items-end justify-start p-8">
+                                <p class="text-white text-2xl font-playfair">Special Moments</p>
+                            </div>
+                        </div>
+                        <!-- Image 3 -->
+                        <div class="carousel-item min-w-full">
+                            <img src="./images/C.jpg" 
+                                 alt="Memory C" 
+                                 class="w-full h-[600px] object-cover"
+                                 onerror="this.onerror=null; this.src='data:image/svg+xml,%3Csvg xmlns=\'http://www.w3.org/2000/svg\' width=\'800\' height=\'600\' viewBox=\'0 0 800 600\'%3E%3Crect width=\'800\' height=\'600\' fill=\'%23f3f4f6\'/%3E%3Ctext x=\'400\' y=\'300\' font-family=\'Arial\' font-size=\'24\' fill=\'%236b7280\' text-anchor=\'middle\' dominant-baseline=\'middle\'%3EImage Loading...%3C/text%3E%3C/svg%3E'">
+                            <div class="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent flex items-end justify-start p-8">
+                                <p class="text-white text-2xl font-playfair">Beautiful Times</p>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Carousel Controls -->
+                    <button class="carousel-prev absolute left-4 top-1/2 transform -translate-y-1/2 bg-white bg-opacity-50 hover:bg-opacity-75 rounded-full p-3 text-gray-800 transition-all">
+                        <i class="fas fa-chevron-left text-xl"></i>
+                    </button>
+                    <button class="carousel-next absolute right-4 top-1/2 transform -translate-y-1/2 bg-white bg-opacity-50 hover:bg-opacity-75 rounded-full p-3 text-gray-800 transition-all">
+                        <i class="fas fa-chevron-right text-xl"></i>
+                    </button>
+                    
+                    <!-- Carousel Indicators -->
+                    <div class="absolute bottom-4 left-1/2 transform -translate-x-1/2 flex space-x-2">
+                        <button class="carousel-indicator w-3 h-3 rounded-full bg-white bg-opacity-50 hover:bg-opacity-75 transition-all"></button>
+                        <button class="carousel-indicator w-3 h-3 rounded-full bg-white bg-opacity-50 hover:bg-opacity-75 transition-all"></button>
+                        <button class="carousel-indicator w-3 h-3 rounded-full bg-white bg-opacity-50 hover:bg-opacity-75 transition-all"></button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Interactive Timeline -->
+    <section class="py-20 bg-white">
+        <div class="max-w-4xl mx-auto px-4">
+            <h2 class="text-4xl font-playfair font-bold text-center mb-16 text-gray-800">Our Timeline</h2>
+            <div class="space-y-12">
+                <div class="flex flex-col md:flex-row items-center transform hover:scale-105 transition-transform duration-300">
+                    <div class="md:w-1/2 p-6">
+                        <div class="glass-morphism p-6 rounded-lg shadow-xl">
+                            <h3 class="text-2xl font-playfair font-bold mb-3">The Beginning</h3>
+                            <p class="text-gray-600">Where our journey began...</p>
+                        </div>
+                    </div>
+                    <div class="md:w-1/2 p-6">
+                        <img src="data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 width=%22800%22 height=%22600%22 viewBox=%220 0 800 600%22%3E%3Crect width=%22800%22 height=%22600%22 fill=%22%23FFA07A%22/%3E%3Ctext x=%22400%22 y=%22300%22 font-family=%22Arial%22 font-size=%2224%22 fill=%22white%22 text-anchor=%22middle%22 dominant-baseline=%22middle%22%3EBeginning%3C/text%3E%3C/svg%3E" 
+                             alt="Beginning" 
+                             class="rounded-lg shadow-lg">
+                    </div>
+                </div>
+                <!-- Add more timeline items -->
+            </div>
+        </div>
+    </section>
+
+    <!-- Memory Map Section -->
+    <section class="py-20 bg-gradient-to-r from-pink-50 to-purple-50">
+        <div class="max-w-4xl mx-auto px-4 text-center">
+            <h2 class="text-4xl font-playfair font-bold mb-8 text-gray-800">Our Special Places</h2>
+            <div class="bg-white rounded-lg shadow-xl p-6">
+                <div class="w-full h-96 bg-gray-200 rounded-lg flex items-center justify-center">
+                    <p class="text-gray-600">Map Loading...</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Music Player -->
+    <section class="fixed bottom-0 left-0 right-0 bg-white shadow-lg z-40 p-4">
+        <div class="max-w-md mx-auto flex items-center justify-between">
+            <div class="flex items-center">
+                <i class="fas fa-music text-pink-500 mr-4"></i>
+                <div>
+                    <p class="font-bold">Our Song</p>
+                    <p class="text-sm text-gray-600">Artist Name</p>
+                </div>
+            </div>
+            <div class="flex items-center space-x-4">
+                <button class="text-gray-600 hover:text-pink-500">
+                    <i class="fas fa-backward"></i>
+                </button>
+                <button class="w-10 h-10 bg-pink-500 text-white rounded-full flex items-center justify-center">
+                    <i class="fas fa-play"></i>
+                </button>
+                <button class="text-gray-600 hover:text-pink-500">
+                    <i class="fas fa-forward"></i>
+                </button>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="py-8 bg-gray-900 text-white text-center">
+        <p class="text-lg">❤️ Forever Together ❤️</p>
+        <div class="mt-4 space-x-4">
+            <a href="#" class="text-white hover:text-pink-400 transition-colors">
+                <i class="fab fa-instagram"></i>
+            </a>
+            <a href="#" class="text-white hover:text-pink-400 transition-colors">
+                <i class="fab fa-facebook"></i>
+            </a>
+            <a href="#" class="text-white hover:text-pink-400 transition-colors">
+                <i class="fab fa-twitter"></i>
+            </a>
+        </div>
+    </footer>
+
+    <!-- Scripts -->
+    <script src="carousel_temp.js"></script>
+</body>
+</html>
